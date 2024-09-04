@@ -33,16 +33,7 @@ namespace KittyCarSales
 
         public static Decimal? GetDecimal(String Prompt)
         {
-            String? input;
-            do
-            {
-                Console.Write(Prompt);
-                input = Console.ReadLine();
-                bool success = Decimal.TryParse(input, out decimal result);
-                if (success) return result;
-                if (input != "") Console.WriteLine("Invalid input. Please try again.");
-            } while (input != "");
-            return null;
+            throw new NotImplementedException();
         }
 
         public static void SearchForCar(Logic logic)
@@ -148,6 +139,9 @@ namespace KittyCarSales
             } while (!makes.Select(a => a.Name).Contains(make));
 
             Type type = makes.Where(a => a.Name == make).First();
+
+
+            ICar clone = (ICar)Activator.CreateInstance(type);
 
             // Use Interfaces to FIX this.
             //dynamic car = Activator.CreateInstance(type); // dynamic is bad!  Start praying here.

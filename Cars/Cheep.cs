@@ -2,7 +2,7 @@
 
 namespace KittyCarSales
 {
-    internal class Cheep : Car, ICar
+    internal class Cheep : ICar
     {
         public String Make { get; set; } = "Cheep";
 
@@ -27,16 +27,15 @@ namespace KittyCarSales
 
             Decimal? price = CLI.GetDecimal("Price: ");
             if (price == null) return false;
-            Int32? quantity = CLI.GetInteger("Quantity: ");
-            if (quantity == null) return false;
 
-            { Make = this.Make; Model = model; Year = (Int32)year; Color = color; Description = description; Price = (Decimal)price; Quantity = (Int32)quantity; }
+
+            { Make = this.Make; Model = model; Year = (Int32)year; Color = color; Description = description; Price = (Decimal)price;  }
             return true;
 
         }
         public override String ToString()
         {
-            return $"{Make,-8} {Model,-5} ({Year,-4}) - {Color,-10} - {Description,-40}\n {" ",11} {Price,8:C0} - {Quantity,2} in stock";
+            return $"{Make,-8} {Model,-5} ({Year,-4}) - {Color,-10} - {Description,-40}\n {" ",61} {Price,8:C0} - {Quantity,2} in stock";
         }
     }
 }

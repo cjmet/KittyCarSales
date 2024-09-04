@@ -2,7 +2,7 @@
 
 namespace KittyCarSales
 {
-    internal class Duck : Car, ICar
+    internal class Duck : ICar
     {
         public String Make { get; set; } = "Duck";
 
@@ -22,15 +22,13 @@ namespace KittyCarSales
 
             String? color = CLI.GetString("Color: ");
             if (color == null) return false;
-            String? description = CLI.GetString("Description: ");
-            if (description == null) return false;
 
             Decimal? price = CLI.GetDecimal("Price: ");
             if (price == null) return false;
             Int32? quantity = CLI.GetInteger("Quantity: ");
             if (quantity == null) return false;
 
-            { Make = this.Make; Model = model; Year = (Int32)year; Color = color; Description = description; Price = (Decimal)price; Quantity = (Int32)quantity; }
+            { Make = this.Make; Model = model; Year = (Int32)year; Color = color;  Price = (Decimal)price; Quantity = (Int32)quantity; }
             return true;
 
         }

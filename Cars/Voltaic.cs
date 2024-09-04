@@ -2,9 +2,9 @@
 
 namespace KittyCarSales
 {
-    public class Voltaic : Car, ICar
+    public class Voltaic : ICar
     {
-        public String Make { get; set; } = "Generic Make";
+        public String Make { get; set; } = "Voltaic";
         public String Model { get; set; } = "Generic Model";
         public Int32 Year { get; set; } = -1;
         public String Color { get; set; } = "Generic Color";
