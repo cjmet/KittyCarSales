@@ -144,8 +144,7 @@ namespace KittyCarSales
             ICar clone = (ICar)Activator.CreateInstance(type);
 
             // Use Interfaces to FIX this.
-            //dynamic car = Activator.CreateInstance(type); // dynamic is bad!  Start praying here.
-            ICar car = (ICar)Activator.CreateInstance(type); 
+            dynamic car = Activator.CreateInstance(type); // dynamic is bad!  Start praying here.
             if (car == null) return; 
             var result = car.AddCarFromConsole(); // Pray harder here ... will this work or go boom!
 
