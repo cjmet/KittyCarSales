@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using System.Reflection;
 
 namespace KittyCarSales
 {
@@ -21,6 +22,7 @@ Welcome to Kitty Car Sales!
 4. Get Total Inventory Value
 5. Get Average Car Price
 
+8. System.Reflection
 9. Add a car
 -------
 """;
@@ -47,8 +49,11 @@ Welcome to Kitty Car Sales!
                     case 5:
                         CLI.GetAverageCarPrice(logic);
                         break;
+                    case 8:
+                        CLI.Reflection();
+                        break;
                     case 9:
-                        CLI.AddCar();
+                        CLI.AddCar(logic);
                         break;
                     default:
                         Console.WriteLine("Invalid choice. Please try again.");

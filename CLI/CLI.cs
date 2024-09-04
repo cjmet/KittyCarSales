@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
+using KittyCarSales.Interfaces;
 
 namespace KittyCarSales
 {
@@ -53,13 +50,13 @@ namespace KittyCarSales
             String? search = GetString("Enter the search string: ");
             if (search == null) return;
             Console.WriteLine();
-            List<Car> cars = logic.SearchForCar(search); 
+            List<ICar> cars = logic.SearchForCar(search);
             if (cars.Count == 0)
             {
                 Console.WriteLine("No cars found.");
                 return;
             }
-            foreach (Car car in cars)
+            foreach (ICar car in cars)
             {
                 Console.WriteLine(car);
             }
@@ -68,13 +65,13 @@ namespace KittyCarSales
         public static void GetAllCars(Logic logic)
         {
             Console.WriteLine();
-            List<Car> cars = logic.GetAllCars();
+            List<ICar> cars = logic.GetAllCars();
             if (cars.Count == 0)
             {
                 Console.WriteLine("No cars found.");
                 return;
             }
-            foreach (Car car in cars)
+            foreach (ICar car in cars)
             {
                 Console.WriteLine(car);
             }
@@ -85,7 +82,7 @@ namespace KittyCarSales
             String make = GetString("Enter the make: ");
             if (make == null) return;
             Console.WriteLine();
-            List<Car> cars = logic.GetAllCarsByMake(make);
+            List<ICar> cars = logic.GetAllCarsByMake(make);
             if (cars.Count == 0)
             {
                 Console.WriteLine("No cars found.");
@@ -121,18 +118,52 @@ namespace KittyCarSales
             Console.WriteLine($"Average Car Price: {value:C0}");
         }
 
-        public static void AddCar()
+        public static void Reflection()
         {
-            String make = GetString("Enter the make: ");
-            if (make == null) return;
-            String model = GetString("Enter the model: ");
-            if (model == null) return;
-            Decimal? price = GetDecimal("Enter the price: ");
-            if (price == null) return;
-            Int32? year = GetInteger("Enter the year: ");
-            if (year == null) return;
-            // Logic.AddCar(make, model, price, year);
-            throw new NotImplementedException();
+            Console.WriteLine();
+            var parent = Assembly.GetExecutingAssembly().GetName().Name;
+            Console.WriteLine($"Parent: {parent}");
+            var children = Assembly.GetExecutingAssembly().GetTypes().Where(a => a.BaseType == typeof(Car)).ToList();
+            var childNames = children.Select(a => a.Name).ToList();
+            Console.WriteLine("Children: ");
+            foreach (var child in children)
+            {
+                Console.WriteLine($"   {child.Name,-8} is a {child.BaseType.Name}");
+            }
+            return;
+        }
+
+        public static void AddCar(Logic logic)
+        {
+            var makes = Assembly.GetExecutingAssembly().GetTypes().Where(a => a.BaseType == typeof(Car)).ToList();
+
+            String? make;
+            do
+            {
+                Console.WriteLine();
+                Console.WriteLine("Available Makes: ");
+                Console.WriteLine($"   {String.Join(", ", makes.Select(a => a.Name))}");
+                make = CLI.GetString("Make: ");
+                if (make == null) return;
+            } while (!makes.Select(a => a.Name).Contains(make));
+
+            Type type = makes.Where(a => a.Name == make).First();
+
+            // Use Interfaces to FIX this.
+            //dynamic car = Activator.CreateInstance(type); // dynamic is bad!  Start praying here.
+            ICar car = (ICar)Activator.CreateInstance(type); 
+            if (car == null) return; 
+            var result = car.AddCarFromConsole(); // Pray harder here ... will this work or go boom!
+
+            if (result)
+            {
+                logic.AddCar(car);
+                Console.WriteLine("Car added successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Car not added.");
+            }
         }
     }
 }
