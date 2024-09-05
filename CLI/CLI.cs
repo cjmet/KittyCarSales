@@ -128,6 +128,15 @@ namespace KittyCarSales
         {
             var makes = Assembly.GetExecutingAssembly().GetTypes().Where(a => a.BaseType == typeof(Car)).ToList();
 
+            if (makes.Count == 0)
+            {
+                Console.WriteLine("WARNING: No car types found.");
+            }
+            {
+                // if all else fails hard code the list of makes.
+                makes = new List<Type> { typeof(Cattilap), typeof(Cheep), typeof(Duck) };
+            }
+
             String? make;
             do
             {
@@ -140,12 +149,9 @@ namespace KittyCarSales
 
             Type type = makes.Where(a => a.Name == make).First();
 
-
-            ICar clone = (ICar)Activator.CreateInstance(type);
-
             // Use Interfaces to FIX this.
             dynamic car = Activator.CreateInstance(type); // dynamic is bad!  Start praying here.
-            if (car == null) return; 
+            if (car == null) return;
             var result = car.AddCarFromConsole(); // Pray harder here ... will this work or go boom!
 
             if (result)
