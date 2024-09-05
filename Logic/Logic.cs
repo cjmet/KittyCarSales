@@ -37,7 +37,7 @@ namespace KittyCarSales
 
         public Decimal? GetTotalInventoryValue()
         {
-            return _cars.Sum(c => c.Price + c.Quantity);
+            return _cars.Sum(c => c.Price * c.Quantity);
         }
 
         public Decimal? GetAverageCarPrice()

@@ -32,21 +32,33 @@ Welcome to Kitty Car Sales!
                 Int32? Choice = CLI.GetInteger("Enter your choice: ");
                 if (Choice == null) break;
 
-                if (Choice == 1) 
-                    CLI.SearchForCar(logic);
-                if (Choice == 2); 
-                    CLI.GetAllCars(logic);
-                if (Choice == 3) 
-                    CLI.GetAllCarsByMake(logic);
-                if (Choice == 4) 
-                    CLI.GetTotalInventoryValue(logic);
-                if (Choice == 5) 
-                    CLI.GetAverageCarPrice(logic);
-                if (Choice == 8) 
-                    CLI.Reflection();
-                if (Choice == 9) 
-                    CLI.AddCar(logic);
-                if (Choice <= 0 || Choice > 9)  Console.WriteLine("Invalid choice. Please try again.");
+                switch (Choice)
+                {
+                    case 1:
+                        CLI.SearchForCar(logic);
+                        break;
+                    case 2:
+                        CLI.GetAllCars(logic);
+                        break;
+                    case 3:
+                        CLI.GetAllCarsByMake(logic);
+                        break;
+                    case 4:
+                        CLI.GetTotalInventoryValue(logic);
+                        break;
+                    case 5:
+                        CLI.GetAverageCarPrice(logic);
+                        break;
+                    case 8:
+                        CLI.Reflection();
+                        break;
+                    case 9:
+                        CLI.AddCar(logic);
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Please try again.");
+                        break;
+                }
 
             } while (true);
 

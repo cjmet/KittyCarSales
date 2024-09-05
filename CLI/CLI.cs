@@ -31,9 +31,34 @@ namespace KittyCarSales
             return null;
         }
 
+        public static Boolean? GetBoolean(String Prompt)
+        {
+            String? input;
+            do
+            {
+                Console.Write(Prompt);
+                input = Console.ReadLine();
+                input = input?.Trim().ToLower();
+                var letter = input[0];
+                if (letter == 'y' || letter == 't' ) return true;
+                if (letter == 'n' || letter == 'f') return false;
+                if (input != "") Console.WriteLine("Invalid input. Answer must be Yes, No, True, False. Please try again.");
+            } while (input != "");
+            return null;
+        }
+
         public static Decimal? GetDecimal(String Prompt)
         {
-            throw new NotImplementedException();
+            String? input;
+            do
+            {
+                Console.Write(Prompt);
+                input = Console.ReadLine();
+                bool success = Decimal.TryParse(input, out decimal result);
+                if (success) return result;
+                if (input != "") Console.WriteLine("Invalid input. Please try again.");
+            } while (input != "");
+            return null;
         }
 
         public static void SearchForCar(Logic logic)
@@ -79,7 +104,7 @@ namespace KittyCarSales
                 Console.WriteLine("No cars found.");
                 return;
             }
-            foreach (Car car in cars)
+            foreach (ICar car in cars)
             {
                 Console.WriteLine(car);
             }
@@ -131,8 +156,6 @@ namespace KittyCarSales
             if (makes.Count == 0)
             {
                 Console.WriteLine("WARNING: No car types found.");
-            }
-            {
                 // if all else fails hard code the list of makes.
                 makes = new List<Type> { typeof(Cattilap), typeof(Cheep), typeof(Duck) };
             }
@@ -150,7 +173,8 @@ namespace KittyCarSales
             Type type = makes.Where(a => a.Name == make).First();
 
             // Use Interfaces to FIX this.
-            dynamic car = Activator.CreateInstance(type); // dynamic is bad!  Start praying here.
+            //dynamic car = Activator.CreateInstance(type); // dynamic is bad!  Start praying here.
+            ICar car = (ICar)Activator.CreateInstance(type); 
             if (car == null) return;
             var result = car.AddCarFromConsole(); // Pray harder here ... will this work or go boom!
 
