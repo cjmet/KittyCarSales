@@ -131,8 +131,6 @@ namespace KittyCarSales
             if (makes.Count == 0)
             {
                 Console.WriteLine("WARNING: No car types found.");
-            }
-            {
                 // if all else fails hard code the list of makes.
                 makes = new List<Type> { typeof(Cattilap), typeof(Cheep), typeof(Duck) };
             }
